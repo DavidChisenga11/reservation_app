@@ -1,0 +1,85 @@
+// store.js
+
+// import { reactive, computed } from 'vue';
+
+// export const state = reactive({
+//   numberOfRooms: 0,
+// });
+
+// const getters = {
+//   isNumberOfRoomsZero: computed(() => {
+//     return state.numberOfRooms === 0;
+//   }),
+// };
+
+// const mutations = {
+//   increment() {
+//     state.numberOfRooms++;
+//   },
+//   decrement() {
+//     state.numberOfRooms--;
+//   },
+// };
+
+// export default {
+//   getters,
+//   mutations,
+// };
+
+
+
+// // store.js
+
+// import { createStore } from 'vuex';
+
+// const store = createStore({
+//   state() {
+//     return {
+//       numberOfRooms: 0,
+//     };
+//   },
+//   mutations: {
+//     increment(state) {
+//       state.numberOfRooms++;
+//     },
+//     decrement(state) {
+//       if (state.numberOfRooms > 0) {
+//         state.numberOfRooms--;
+//       }
+//     },
+//   },
+//   getters: {
+//     isNumberOfRoomsZero(state) {
+//       return state.numberOfRooms === 0;
+//     },
+//   },
+// });
+
+// export default store;
+
+
+
+
+
+import { createStore } from 'vuex';
+
+export default createStore({
+  state: {
+    adults: 0,
+    children: 0,
+    rooms: 0,
+  },
+  mutations: {
+    increment(state, type) {
+      state[type]++;
+    },
+    decrement(state, type) {
+      state[type]--;
+    },
+  },
+  getters: {
+    isDecrementDisabled: (state) => (type) => {
+      return state[type] === 0;
+    },
+  },
+});

@@ -1,0 +1,84 @@
+// MyComponent.vue
+
+// <template>
+//   <div>
+//     <p>Number of Rooms: {{ $store.state.numberOfRooms }}</p>
+//     <button @click="$store.commit('increment')">Increment</button>
+//     <button @click="$store.commit('decrement')" :disabled="$store.getters.isNumberOfRoomsZero">Decrement</button>
+//   </div>
+// </template>
+
+// <script>
+// export default {
+// };
+// </script>
+
+// MyComponent.vue
+
+{/* <template>
+  <div>
+    <p>Number of Rooms: {{ numberOfRooms }}</p>
+    <button @click="increment">Increment</button>
+    <button @click="decrement" :disabled="isNumberOfRoomsZero">Decrement</button>
+  </div>
+</template>
+
+<script>
+import { useStore } from 'vuex';
+
+export default {
+  setup() {
+    const store = useStore();
+    
+    const numberOfRooms = computed(() => {
+      return store.state.numberOfRooms;
+    });
+    
+    const isNumberOfRoomsZero = computed(() => {
+      return store.getters.isNumberOfRoomsZero;
+    });
+    
+    const increment = () => {
+      store.commit('increment');
+    };
+    
+    const decrement = () => {
+      store.commit('decrement');
+    };
+    
+    return {
+      numberOfRooms,
+      isNumberOfRoomsZero,
+      increment,
+      decrement,
+    };
+  },
+};
+</script> */}
+
+
+
+<template>
+  <div>
+    <button @click="decrement('adults')" :disabled="isAdultDecrementDisabled">-</button>
+    <span>{{ adults }}</span>
+    <button @click="increment('adults')">+</button>
+  </div>
+</template>
+
+<script>
+import { mapState, mapMutations, mapGetters } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['adults']),
+    ...mapGetters(['isDecrementDisabled']),
+    isAdultDecrementDisabled() {
+      return this.isDecrementDisabled('adults');
+    },
+  },
+  methods: {
+    ...mapMutations(['increment', 'decrement']),
+  },
+};
+</script>

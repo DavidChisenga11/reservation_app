@@ -1,35 +1,67 @@
-<template>
+<template >
     <div class="header">
         <div class="headerContainer">
             <div class="headerList">
             <div class="headerListItem active">
-                <span>Stays</span>
+               <font-awesome-icon icon="fa-solid fa-bed" /> <span>Stays</span>
             </div>
             <div class="headerListItem">
-                <span>Flights</span>
+             <font-awesome-icon icon="fa-solid fa-plane" />   <span>Flights</span>
             </div>
             <div class="headerListItem">
-                <span>Car Rentals</span>
+              <font-awesome-icon icon="fa-solid fa-car" />  <span>Car Rentals</span>
             </div>
             <div class="headerListItem">
-                <span>Attractions</span>
+               <font-awesome-icon icon="fa-solid fa-city" /> <span>Attractions</span>
             </div>
             <div class="headerListItem">
-                <span>Airport Taxis</span>
+             <font-awesome-icon icon="fa-solid fa-taxi" />   <span>Airport Taxis</span>
             </div>
         </div>
-        <h1 class="headerTitle">A life time of discount? it's Genius.</h1>
+      <h1 class="headerTitle">A life time of discount? it's Genius.</h1>
         <p class="headerDesc">Get rewarded for your travels - unlock instant savings of 10% or more with a free MagnetSprings account</p>
         <button class="headerBtn">Sign in | Regsiter</button>
         <div class="headerSearch">
             <div class="headerSearchItem">
                 <input type="text" placeholder="Where are you going?" class="headerSearchInput">
             </div>
-            <div class="headerSearchItem">
-                <span class="headerSearchText">date to date</span>
+            <div class="headerSearchItem flex-display">
+              <font-awesome-icon icon="fa-solid fa-calendar-days" />  <span class="headerSearchText">
+                <app-date-picker></app-date-picker>
+              </span>
             </div>
             <div class="headerSearchItem">
-                <span class="headerSearchText">2 adults 2 children 1 room</span>
+               <font-awesome-icon icon="fa-solid fa-person" /> <span class="headerSearchText">{{adults}} Adult . {{children}} Children . {{room}} Room</span>
+            </div>
+            <div class="options">
+                <div class="optionItems">
+                    <span class="optionText">Adult</span>
+                        <div class="optionCounter">
+                        <button  @click="decrement('adults')" class="optionCounterBtn" :disabled="isAdultDecrementDisabled">-</button>
+                        <span class="optionCounterNumber qty-one" >{{adults}}</span>
+                        <button @click="increment('adults')"  class="optionCounterBtn">+</button>
+                    </div>
+                    
+                </div>
+                <div class="optionItems">
+                    <span class="optionText">Children</span>
+                        <div  class="optionCounter">
+                        <button @click="decrement('children')" :disabled="isChildrenDecrementDisabled" class="optionCounterBtn" >-</button>
+                        <span class="optionCounterNumber qty-two" >{{children}}</span>
+                        <button @click="increment('children')" class="optionCounterBtn" >+</button>
+                    </div>
+                  
+                </div>
+                <div class="optionItems">
+                    <span class="optionText">Room</span>
+                        <div class="optionCounter">
+                        <button class="optionCounterBtn" @click="decrement('room')" :disabled="isRoomDecmentDisabledYet">-</button>
+                        <span class="optionCounterNumber qty-three" >{{room}}</span>
+                        <button class="optionCounterBtn" @click="increment('room')">+</button>
+                    </div>
+
+                </div>
+               
             </div>
             <div class="headerSearchItem">
                 <button class="headerBtn">Search</button>
@@ -40,12 +72,32 @@
 </template>
 
 <script>
+import {mapState, mapMutations, mapGetters} from 'vuex';
 export default {
+
+    computed:{
+        ...mapState(['adults', 'children', 'room']),
+        ...mapGetters(['isDecrementDisabled', 'isChildDecrementDisabled', 'isRoomDecrementDisabled']),
+        isAdultDecrementDisabled(){
+            return this.isDecrementDisabled('adults');
+        },
+        isChildrenDecrementDisabled(){
+            return this.isChildDecrementDisabled('children');
+        },
+        isRoomDecmentDisabledYet(){
+            return this.isRoomDecrementDisabled('room');
+        },
+    },
+    methods:{
+        ...mapMutations(['increment', 'decrement']),
+    }
     
+   
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+ 
     .header{
         background-color: #003580;
         color: white;
@@ -106,8 +158,60 @@ export default {
         width: 100%;
         max-width: 1024px;
     }
+
+    button[disabled]{
+  /* opacity: 1; */
+  /* background: red; */
+  cursor: not-allowed;
+}
     .headerSearchInput{
         outline: none;
         border: none;
+    }
+    .headerSearchItem{
+        color: grey;
+    }
+    .flex-display{
+        display: flex;
+        gap: 5px;
+    }
+
+    .options{
+        position: absolute;
+        top: 50px;
+        right: 8rem;
+        /* background: #0071c2; */
+        background-color: white;
+        color: grey;
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+    }
+    .optionItems{
+        width: 200px;
+        display: flex;
+        justify-content: space-between;
+        margin: 10px;
+    }
+    .optionCounter{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font: size 12px;
+        color: #000;
+    }
+    .optionCounterBtn{
+        width: 30px;
+        height: 30px;
+        border: 1px solid #0071c2;
+        color: #0071c2;
+        background-color: #ffffff;
+        cursor: pointer;
+    }
+    .optionCounterBtn[disabled]{
+        border: 1px solid grey;
+        color: grey;
+        background-color: #ffffff;
+        opacity: 0.5;
     }
 </style>
